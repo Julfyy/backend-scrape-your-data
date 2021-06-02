@@ -1,0 +1,55 @@
+{
+  "name": "scrapeyourdata",
+  "version": "1.0.0",
+  "description": "**ScrapeYourData**",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint",
+    "test": "jest --passWithNoTests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julfyy/ScrapeYourData.git"
+  },
+  "author": "Bohdan Shybetskyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Julfyy/ScrapeYourData/issues"
+  },
+  "homepage": "https://github.com/Julfyy/ScrapeYourData#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cheerio": "*",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "exceljs": "^4.2.1",
+    "express": "^4.17.1",
+    "got": "^11.8.2",
+    "himalaya": "^1.1.0",
+    "jest": "^26.6.3",
+    "mongodb": "^3.6.8",
+    "mongoose": "^5.12.11",
+    "puppeteer": "^9.1.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^11.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "./node_modules/.bin/eslint --fix"
+    ]
+  }
+}
