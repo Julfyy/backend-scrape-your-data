@@ -19,7 +19,6 @@
   "homepage": "https://github.com/Julfyy/ScrapeYourData#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cheerio": "*",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
