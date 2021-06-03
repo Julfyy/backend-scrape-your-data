@@ -16,7 +16,6 @@ mongoose
   .catch((err) => console.log(err));
 
 const PORT = process.env.PORT || 3000;
-//test
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 app.use(cors());
