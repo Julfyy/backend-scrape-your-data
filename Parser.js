@@ -5,7 +5,10 @@ const { findMaxColumnSize } = require('./utils/arrayUtils');
 
 const getData = async (request) => {
   const url = request.url;
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   await page.goto(url);
 
