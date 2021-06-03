@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
-const Excel = require('exceljs');
 
+const { setColumns, formatData, createRowFromArray, initWorkBook } = require('./utils/workbookUtils');
 const { findMaxColumnSize } = require('./utils/arrayUtils');
 
 const getData = async (request) => {
@@ -9,6 +9,7 @@ const getData = async (request) => {
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
+
   const page = await browser.newPage();
   await page.goto(url);
 
@@ -46,53 +47,18 @@ const getData = async (request) => {
 const getXlsx = async (request) => {
   const data = await getData(request);
 
-  let workbook = new Excel.Workbook();
+  // Create workbook
+  let workbook = initWorkBook();
+  
+  // Create columns with names
+  worksheet = setColumns(data, workbook.addWorksheet('Sheet1'));
 
-  workbook.creator = 'Me';
-  workbook.lastModifiedBy = 'Her';
-  workbook.created = new Date();
-  workbook.modified = new Date();
-  workbook.lastPrinted = new Date();
-  workbook.properties.date1904 = true;
+  // Format exicting data
+  let formattedData = formatData(data);
 
-  workbook.views = [
-    {
-      x: 0,
-      y: 0,
-      width: 10000,
-      height: 20000,
-      firstSheet: 0,
-      activeTab: 1,
-      visibility: 'visible',
-    },
-  ];
-  let worksheet = workbook.addWorksheet('Sheet1');
-
-  let columns = [];
-  for (let i = 0; i < data.length; i++) {
-    columns.push({ header: data[i].key, key: `${i}`, width: 70 });
-  }
-  worksheet.columns = columns;
-
-  let formattedData = [];
-  const maxSize = findMaxColumnSize(data);
-  for (let i = 0; i < maxSize; i++) {
-    let row = [];
-    for (let elem of data) {
-      row.push(elem.content[i] === undefined ? '' : elem.content[i]);
-    }
-    formattedData.push(row);
-  }
-
+  // Push data row by row
   for (let row of formattedData) {
-    let endRow = {};
-    let i = 0;
-    for (let item of row) {
-      const jsonItem = JSON.parse(`{ "${i++}": "${item}" }`);
-      Object.assign(endRow, jsonItem);
-    }
-
-    worksheet.addRow(endRow);
+    worksheet.addRow(createRowFromArray(row));
   }
 
   return workbook;
